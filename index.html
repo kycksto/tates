@@ -97,8 +97,6 @@ if (markerFound == 1) {
 <!-- BEGIN: Unity Compiled Assets -->
 <a-assets>
 <video id="Video_Asset_1" autoplay="false" loop crossorigin="anonymous" src="videos/video.mp4" webkit-playsinline playsinline controls muted></video>
-<a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
-<a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
 <a-asset-item id="sword" src="sword.gltf"></a-asset-item>
 </a-assets>
 <!-- END: Unity Compiled Assets -->
@@ -109,9 +107,12 @@ if (markerFound == 1) {
 <!-- BEGIN: Unity Compiled Objects -->
 <!--a-box width="0.26431" height="0.26431" depth="0.26431" class="intersectable" position="4 0.5 0" rotation="0 0 0" color="#FFFFF0" 
 ></a-box-->
-<!--<a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
-></a-video> -->
-
+<a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
+></a-video>
+<!--a-entity gltf-model="#sword"
+          position="0 1 0"
+          scale="1 1 1">
+</a-entity-->
 <!-- END: Unity Compiled Objects -->
 
 <!-- BEGIN: Bottom HTML -->
