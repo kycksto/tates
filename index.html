@@ -96,10 +96,9 @@ if (markerFound == 1) {
 
 <!-- BEGIN: Unity Compiled Assets -->
 <a-assets>
-	<a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
-	<a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
+<a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
+<a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
 <video id="Video_Asset_1" autoplay="false" loop crossorigin="anonymous" src="videos/video.mp4" webkit-playsinline playsinline controls muted></video>
-<a-asset-item id="sword" src="sword.gltf"></a-asset-item>
 </a-assets>
 <!-- END: Unity Compiled Assets -->
 <!-- BEGIN: Add Image Target (marker) -->
@@ -107,15 +106,7 @@ if (markerFound == 1) {
 <!-- END: Add Image Target (marker) -->
 
 <!-- BEGIN: Unity Compiled Objects -->
-<a-entity webar-stage>
-	<a-ring landingcursor id="landing" mixin="landeffect" color="#FBB42C" material="opacity: 0.4; transparent: true" radius-inner="0.8" radius-outer="1"  rotation="-90 0 0" segments-phi=30 segments-theta=96></a-ring>
 
-	<!-- Step 5: Add AR models under the webar-stage node -->
-	  <!-- Add webar-loadmonitor attribute to the entities to display loading progress screen before starting the surface tracking -->
-	  <!-- Refer API:Attributes documentation for more details -->
-	<a-entity gltf-model="#portalhider" id="portal_1" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false hider-material></a-entity>
-	<a-entity gltf-model="#portal" id="portal_2" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false></a-entity>
-  </a-entity>
 
 <!--a-entity gltf-model="#sword"
           position="0 1 0"
