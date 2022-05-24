@@ -11,7 +11,7 @@
 	var portalObject = undefined;
     var portalHiderObject = undefined;
 	var markerFound = 0;
-	
+
 AFRAME.registerComponent('button', {
 init: function () {
 var elem = document.documentElement;
@@ -129,13 +129,13 @@ if (markerFound == 1) {
 	<!-- Step 5: Add AR models under the webar-stage node -->
 	  <!-- Add webar-loadmonitor attribute to the entities to display loading progress screen before starting the surface tracking -->
 	  <!-- Refer API:Attributes documentation for more details -->
-	<a-entity gltf-model="#portalhider" id="portal_1" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false hider-material></a-entity>
-	<a-entity gltf-model="#portal" id="portal_2" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false></a-entity>
+	<a-entity gltf-model="#portalhider" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false hider-material></a-entity>
+	<a-entity gltf-model="#portal"  rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false></a-entity>
   </a-entity>
-<!--a-entity gltf-model="#sword"
+<a-entity gltf-model="#sword"
           position="0 1 0"
           scale="1 1 1">
-</a-entity-->
+</a-entity>
 <!-- END: Unity Compiled Objects -->
 
 <!-- BEGIN: Bottom HTML -->
