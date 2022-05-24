@@ -115,31 +115,48 @@ function initialize()
 	})
 
 	// the inside of the hole
-	let geometry1	= new THREE.CubeGeometry(2,2,2);
-	let loader = new THREE.TextureLoader();
-	let texture = loader.load( 'images/tiles.jpg' );
-	let material1	= new THREE.MeshLambertMaterial({
-		transparent : true,
-		map: texture,
-		side: THREE.BackSide
-	}); 
+	// model
+    const loader = new FBXLoader();
+				loader.load( 'models/Ruang.fbx', function ( object ) {
+
+					mixer = new THREE.AnimationMixer( object );
+
+					const action = mixer.clipAction( object.animations[ 0 ] );
+					action.play();
+
+					object.traverse( function ( child ) {
+
+						if ( child.isMesh ) {
+
+							child.castShadow = true;
+							child.receiveShadow = true;
+
+						}
+
+					} );
+
+					scene.add( object );
+
+				} );  
 	
 	mesh1 = new THREE.Mesh( geometry1, material1 );
 	mesh1.position.y = -1;
 	
 	markerRoot1.add( mesh1 );
 	
-	// the invisibility cloak (box with a hole)
-	let geometry0 = new THREE.BoxGeometry(2,2,2);
-	geometry0.faces.splice(4, 2); // make hole by removing top two triangles
+	// the invisibility cloak (plane with a hole)
+	let geometry0 = new THREE.PlaneGeometry(18,18, 9,9);
+	geometry0.faces.splice(80, 2); // make hole by removing top two triangles
+	geometry0.faceVertexUvs[0].splice(80, 2);
 	
 	let material0 = new THREE.MeshBasicMaterial({
+		// map: loader.load( 'images/color-grid.png' ), // for testing placement
 		colorWrite: false
 	});
 	
 	let mesh0 = new THREE.Mesh( geometry0, material0 );
-	mesh0.scale.set(1,1,1).multiplyScalar(1.01);
-	mesh0.position.y = -1;
+	
+	mesh0.rotation.x = -Math.PI/2;
 	markerRoot1.add(mesh0);	
 }
 
