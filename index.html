@@ -1,152 +1,149 @@
+<!-- BEGIN: Top HTML -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="shortcut icon" href="#" />
-    <title>Blippar WebAR SDK</title>
+<!-- include aframe -->
+<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<!-- include ar.js -->
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-    <!-- From WebAR SDK v1.1.0-beta AFrame script has to be included and before webar-sdk script -->
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+<!-- END: Top HTML -->
+<!-- BEGIN: Unity Compiled Events -->
+<script>
+var markerFound = 0;
+AFRAME.registerComponent('button', {
+init: function () {
+var elem = document.documentElement;
+var marker = document.querySelector("#marker");
+var button = document.querySelector("#mutebutton");
+var Video_1 = document.querySelector("#Video_Asset_1");
+marker.addEventListener("markerFound", function (evt) {
+markerFound = 1;
+Video_1.play();
+});
+marker.addEventListener("markerLost", function (evt) {
+markerFound = 0;
+Video_1.pause();
+});
+button.addEventListener("click", function(evt){
+console.log("button clicked")
+if(Video_1.muted==true){
+button.innerHTML="Mute";
+Video_1.muted=false;
+}else{
+button.innerHTML="Unmute";
+Video_1.muted=true;
+}
+});
+},
+tick: function (totalTime, deltaTime) {
+var dTime = deltaTime / 1000;
 
-    <!-- Step 1: Include WebAR SDK script -->
-    <script src="../../blippar/webar-sdk-v1.2.0-beta.min.js"
-      auto-start="true"
-      logo-src="../../images/test_logo_here.png"
-      logo-width="116px"
-      logo-height="116px"
-      progress-dot-ring-scale="0.30"
-      progress-dot-ring-color="#00AAFF"
-      progress-ring-scale="0.36"
-      progress-ring-color="#00FFFF"
-      progress-ring-line-width="5"
+if (markerFound == 1) {
+}
 
-      alert-border-color="#00FFFF"
-      alert-border-width="5px"
-      alert-background-color="#283747"
-      alert-message-text-color="#00AAFF"
-      alert-button-color="#00FFFF"
-      alert-button-text-color="#283747"
-      alert-button-height="50px"
-      alert-camera-permission-text="We need to ask for access to the camera so this experience can work!!!"
-      alert-camera-permission-button-text="No Problem"
-      alert-motion-permission-text="Now we need access to motion sensors!!!"
-      alert-motion-permission-button-text="No Problem"
 
-      ui-background-color="#283747"
-      ui-text-color="#00FFFF"
-      desktop-logo-src="../../images/test_desktop_logo.png"
-      desktop-logo-width="108px"
-      desktop-logo-height="30px"
-      issue-img-src="../../images/test_issue_img.png"
-      issue-img-width="116px"
-      issue-img-height="116px"
-      show-guide-view="true"
-    ></script>
+        function bezierEvaluate(p0, p1, p2, p3, t) {
+            var u = (1 - t);                
+            var uu = u * u;                
+            var uuu = u * u * u;               
+            var tt = t * t;               
+            var ttt = t * t * t;               
+            //B(t) = (1-t)^3*P0 3*(1-t)^2*t*P1 3*(1-t)*t^2*P2 t^3*P3 , 0 < t < 1               
+            return (uuu * p0 + 3 * uu * t * p1 + 3 * u * tt * p2 + ttt * p3);          
+        }          
+        function bezierPath(p0, p1, p2, p3, t) {               
+            return new THREE.Vector3(                   
+                bezierEvaluate(p0.x, p1.x, p2.x, p3.x, t),                   
+                bezierEvaluate(p0.y, p1.y, p2.y, p3.y, t),                   
+                bezierEvaluate(p0.z, p1.z, p2.z, p3.z, t)               
+            );           
+        }     
+    }
+});
+</script>
+<!-- END: Unity Compiled Events -->
 
-    <script src="https://unpkg.com/aframe-animation-timeline-component@2.0.0/dist/aframe-animation-timeline-component.min.js"></script>
-  </head>
+<link rel="stylesheet" href="style.css">
 
-  <body>
-    <!-- Refer API:Functions documentation for more details -->
-    <script>
-      var portalObject = undefined;
-      var portalHiderObject = undefined;
 
-      AFRAME.registerComponent("landingcursor", {
-        init: function() {
-          WEBARSDK.SetStageReadyCallback(() => {
-            console.log('Stage is ready now!!!');
-            portalHiderObject = document.getElementById('portal_1');
-            portalObject = document.getElementById('portal_2');
+<!-- BEGIN: Middle HTML -->
+<body id="bodies" style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
-            // First, show the surface landing animation
-            this.el.emit('landit');
-          });
+        <div class="camload">
+            <p> Please wait for the Camera to turn on.</p>
+        </div>
 
-          this.el.addEventListener("animationcomplete__cursorend", e => {
-            // Second, show the 3D object
-            portalHiderObject.setAttribute('visible', true);
-            portalObject.setAttribute('visible', true);
+        <div class="loader">
+            <image src="Loading gif.gif" alt="loading..." />
+        </div>
 
-            // Hide surface landing cursor
-            this.el.setAttribute('visible', false);
-          });
-        }
-      });
+        <div style='position: absolute; 
+                    bottom: 10px; 
+                    right: 30px; 
+                    width:100%; 
+                    text-align: center;
+                    z-index: 1;'>      
+            <button id="mutebutton" class="buttonUnmute">
+                Unmute
+            </button>
+        </div>
 
-      let closenessRatio = 0.25;
+        
 
-      WEBARSDK.SetPortalEntryCallback(() => {
-          console.info('Entered the portal door');
+        <!-- <a-scene embedded arjs='debugUIEnabled: false; sourceType: video; sourceUrl:../../data/videos/headtracking.mp4;'> -->
+            <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam' vr-mode-ui='enabled: false'>
+            <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .intersectable; useWorldCoordinates: true;"></a-entity>
+<!-- END: Middle HTML -->
 
-          let enableGyroCam = true;
-          WEBARSDK.DisableTracking(enableGyroCam);
+<!-- BEGIN: Unity Compiled Assets -->
+<a-assets>
+<video id="Video_Asset_1" autoplay="false" loop crossorigin="anonymous" src="videos/video.mp4" webkit-playsinline playsinline controls muted></video>
+<a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
+<a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
+<a-asset-item id="sword" src="sword.gltf"></a-asset-item>
+</a-assets>
+<!-- END: Unity Compiled Assets -->
+<!-- BEGIN: Add Image Target (marker) -->
+<a-marker id="marker" preset="hiro" emitevents="true" button>
+<!-- END: Add Image Target (marker) -->
 
-          // Position to the center of 360 view
-          // Its a one way portal. No going back to the real world.
-          portalObject.object3D.position.set(0, 0, 3.0);
-          portalHiderObject.object3D.position.set(0, 0, 3.0);
+<!-- BEGIN: Unity Compiled Objects -->
+<!--a-box width="0.26431" height="0.26431" depth="0.26431" class="intersectable" position="4 0.5 0" rotation="0 0 0" color="#FFFFF0" 
+></a-box-->
+<!--<a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
+></a-video> -->
+<a-entity webar-stage>
+	<a-ring landingcursor id="landing" mixin="landeffect" color="#FBB42C" material="opacity: 0.4; transparent: true" radius-inner="0.8" radius-outer="1"  rotation="-90 0 0" segments-phi=30 segments-theta=96></a-ring>
 
-          console.info('Enabled gyro cam');
-        },
-      closenessRatio);
+	<!-- Step 5: Add AR models under the webar-stage node -->
+	  <!-- Add webar-loadmonitor attribute to the entities to display loading progress screen before starting the surface tracking -->
+	  <!-- Refer API:Attributes documentation for more details -->
+	<a-entity gltf-model="#portalhider" id="portal_1" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false hider-material></a-entity>
+	<a-entity gltf-model="#portal" id="portal_2" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false></a-entity>
+  </a-entity>
+<!-- END: Unity Compiled Objects -->
 
-      AFRAME.registerComponent("hider-material", {
-        init: function () {
-          this.el.addEventListener('model-loaded', this.update.bind(this));
-        },
-        update: function () {
-          this.el.object3D.traverse(function (child) {
-            if (child.isMesh) {
-              child.material.colorWrite = false;
-            }
-          });
-        }
-      });
+<!-- BEGIN: Bottom HTML -->
+</a-marker>
+<a-light type="spot" color="#FF0000" position="-20 0 0" look-at="Video_Asset_1"></a-light>
+<a-light type="point" color="#00FF00" position="0 5 0"></a-light>
+<a-entity camera></a-entity>
 
-    </script>
 
-    <!-- Step 2: Add webar-scene attribute to AFrame's <a-scene> tag -->
-      <!-- Provide a valid Blippar license-key value in the key: property  -->
-    <a-scene
-      webar-scene="key: xxxxxxxx-1111-2222-3333-yyyyyyyyyyyy"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      loading-screen="enabled: false"
-      renderer="colorManagement: true;"
-      animation-timeline__1="timeline: #landingTimeline; loop: false; startEvents: landit;">
+</a-scene>
 
-      <!-- Step 3: Add webar-camera attribute to AFrame's <a-entity camera> tag -->
-      <a-camera webar-camera></a-camera>
 
-      <a-assets timeout="60000">
-        <a-timeline id="landingTimeline">
-          <a-timeline-animation select="#landing" name="cursorbegin"></a-timeline-animation>
-          <a-timeline-animation select="#landing" name="cursorend"></a-timeline-animation>
-        </a-timeline>
+<!--script type="text/javascript">
+    window.addEventListener("load", function () {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden";
+    });
+</script-->
 
-        <a-mixin id="landeffect"
-          animation__cursorbegin="property: visible; from: false; to: true; dur: 1; autoplay: false"
-          animation__cursorend="property: scale; to: 0.75 0.75 0.75; dur: 2000; easing: easeInOutElastic; autoplay: false"
-          scale="0.0001 0.0001 0.0001"
-          position="0 0 0"
-          visible="false"></a-mixin>
-
-        <a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
-        <a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- Step 4: Add webar-stage attribute to an AFrame's parent <a-entity> tag -->
-      <a-entity webar-stage>
-        <a-ring landingcursor id="landing" mixin="landeffect" color="#FBB42C" material="opacity: 0.4; transparent: true" radius-inner="0.8" radius-outer="1"  rotation="-90 0 0" segments-phi=30 segments-theta=96></a-ring>
-
-        <!-- Step 5: Add AR models under the webar-stage node -->
-          <!-- Add webar-loadmonitor attribute to the entities to display loading progress screen before starting the surface tracking -->
-          <!-- Refer API:Attributes documentation for more details -->
-        <a-entity gltf-model="#portalhider" id="portal_1" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false hider-material></a-entity>
-        <a-entity gltf-model="#portal" id="portal_2" rotation="0 0 0" position="0 0 0" scale="3.0 3.0 3.0" webar-loadmonitor="elType: glb" visible=false></a-entity>
-      </a-entity>
-
-    </a-scene>
-
-  </body>
-</html>
+</body>
+<script type="text/javascript">
+    window.addEventListener("load", function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden";
+    });
+</script>
+</html><!-- END: Bottom HTML -->
