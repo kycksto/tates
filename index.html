@@ -1,12 +1,7 @@
-<!-- BEGIN: Top HTML -->
 <!DOCTYPE html>
-<!-- include aframe -->
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
-<!-- include ar.js -->
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-<script src="../tates/node_modules/aframe-effects/dist/aframe-effects.js"></script>
-<!-- END: Top HTML -->
-<!-- BEGIN: Unity Compiled Events -->
+
 <script>
 var markerFound = 0;
 
@@ -22,97 +17,33 @@ AFRAME.registerComponent("hider-material", {
     });
   }
 });
-
 </script>
-
-<script type="script-effect" id="add" data-defaults="bloom_texture bloom_intensity" data-diffuse>
-    void $main(inout vec4 c, vec4 o, vec2 uv, float d){
-        c.rgb += pow(texture2D($0, uv).rgb,vec3(2.)) * $1;
-    }
-</script>
-<!-- END: Unity Compiled Events -->
 
 <link rel="stylesheet" href="style.css">
 
-
-<!-- BEGIN: Middle HTML -->
 <body id="bodies" style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+  <div class="camload">
+      <p> Please wait for the Camera to turn on.</p>
+  </div>
+  <div class="loader">
+      <image src="Loading gif.gif" alt="loading..." />
+  </div>
 
-        <div class="camload">
-            <p> Please wait for the Camera to turn on.</p>
-        </div>
-
-        <div class="loader">
-            <image src="Loading gif.gif" alt="loading..." />
-        </div>
-
-        
-
-        <!-- <a-scene embedded arjs='debugUIEnabled: false; sourceType: video; sourceUrl:../../data/videos/headtracking.mp4;'> -->
-            <a-scene 
-            embedded arjs='debugUIEnabled: false; sourceType: webcam' 
-            vr-mode-ui='enabled: false'
-            antialias="false"
-            effects=" bloom, godrays, fxaa"
-            bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.5; radius:1.2"
-            fxaa="true"
-            godrays="src: #sun; threshold: 0. 0.33; intensity: 2" --></a-scene>
-            >
-            <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .intersectable; useWorldCoordinates: true;"></a-entity>
-<!-- END: Middle HTML -->
-
-<!-- BEGIN: Unity Compiled Assets -->
-<a-assets>
-<a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
-<a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
-<video id="Video_Asset_1" autoplay="false" loop crossorigin="anonymous" src="videos/video.mp4" webkit-playsinline playsinline controls muted></video>
-<a-asset-item id="sword" src="sword.gltf"></a-asset-item>
-</a-assets>
-<!-- END: Unity Compiled Assets -->
-<!-- BEGIN: Add Image Target (marker) -->
-<a-marker id="marker" preset="hiro" emitevents="true" button>
-<!-- END: Add Image Target (marker) -->
-
-<!-- BEGIN: Unity Compiled Objects -->
-<!--a-box width="0.26431" height="0.26431" depth="0.26431" class="intersectable" position="4 0.5 0" rotation="0 0 0" color="#FFFFF0" 
-></a-box-->
-<!--a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
-></a-video-->
-<<<<<<< HEAD
-<a-entity id="sun" geometry="primitive: sphere; radius: 10;" material="shader: flat; transparent: true; color: #ffffff"
-    light="type: directional; color: #FFF; intensity: 0.6" position="40 -2 50"></a-entity>
-<a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
-=======
-<a-entity gltf-model="#portalhider" scale="0.5"  src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
->>>>>>> parent of 7efc48e (cloak work)
-<a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
-
-<!--a-entity gltf-model="#sword"
-          position="0 1 0"
-          scale="1 1 1">
-</a-entity-->
-<!-- END: Unity Compiled Objects -->
-
-<!-- BEGIN: Bottom HTML -->
-</a-marker>
-<a-entity camera></a-entity>
-
-
-</a-scene>
-
-
-<!--script type="text/javascript">
-    window.addEventListener("load", function () {
-        const loader = document.querySelector(".loader");
-        loader.className += " hidden";
-    });
-</script-->
+  <a-scene 
+    embedded arjs='debugUIEnabled: false; sourceType: webcam' 
+    vr-mode-ui='enabled: false'
+    antialias="false"
+    >
+      <a-assets>
+        <a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
+        <a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
+      </a-assets>
+      <a-marker id="marker" preset="hiro" emitevents="true" button>
+        <a-entity gltf-model="#portalhider" scale="0.5"  src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
+        <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+  </a-scene>
 
 </body>
-<script type="text/javascript">
-    window.addEventListener("load", function() {
-        const loader = document.querySelector(".loader");
-        loader.className += " hidden";
-    });
-</script>
-</html><!-- END: Bottom HTML -->
+</html>
