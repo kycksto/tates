@@ -78,9 +78,13 @@ AFRAME.registerComponent("hider-material", {
 ></a-box-->
 <!--a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
 ></a-video-->
+<<<<<<< HEAD
 <a-entity id="sun" geometry="primitive: sphere; radius: 10;" material="shader: flat; transparent: true; color: #ffffff"
     light="type: directional; color: #FFF; intensity: 0.6" position="40 -2 50"></a-entity>
 <a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
+=======
+<a-entity gltf-model="#portalhider" scale="0.5"  src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
+>>>>>>> parent of 7efc48e (cloak work)
 <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
 
 <!--a-entity gltf-model="#sword"
@@ -91,7 +95,6 @@ AFRAME.registerComponent("hider-material", {
 
 <!-- BEGIN: Bottom HTML -->
 </a-marker>
-<a-entity light="type: ambient; color: #CCC"></a-entity>
 <a-entity camera></a-entity>
 
 
