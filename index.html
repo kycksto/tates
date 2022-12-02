@@ -4,7 +4,7 @@
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <!-- include ar.js -->
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-
+<script src="../tates/node_modules/aframe-effects/dist/aframe-effects.js"></script>
 <!-- END: Top HTML -->
 <!-- BEGIN: Unity Compiled Events -->
 <script>
@@ -23,56 +23,12 @@ AFRAME.registerComponent("hider-material", {
   }
 });
 
-AFRAME.registerComponent('button', {
-init: function () {
-var elem = document.documentElement;
-var marker = document.querySelector("#marker");
-var button = document.querySelector("#mutebutton");
-var Video_1 = document.querySelector("#Video_Asset_1");
-marker.addEventListener("markerFound", function (evt) {
-markerFound = 1;
-Video_1.play();
-});
-marker.addEventListener("markerLost", function (evt) {
-markerFound = 0;
-Video_1.pause();
-});
-button.addEventListener("click", function(evt){
-console.log("button clicked")
-if(Video_1.muted==true){
-button.innerHTML="Mute";
-Video_1.muted=false;
-}else{
-button.innerHTML="Unmute";
-Video_1.muted=true;
-}
-});
-},
-tick: function (totalTime, deltaTime) {
-var dTime = deltaTime / 1000;
+</script>
 
-if (markerFound == 1) {
-}
-
-
-        function bezierEvaluate(p0, p1, p2, p3, t) {
-            var u = (1 - t);                
-            var uu = u * u;                
-            var uuu = u * u * u;               
-            var tt = t * t;               
-            var ttt = t * t * t;               
-            //B(t) = (1-t)^3*P0 3*(1-t)^2*t*P1 3*(1-t)*t^2*P2 t^3*P3 , 0 < t < 1               
-            return (uuu * p0 + 3 * uu * t * p1 + 3 * u * tt * p2 + ttt * p3);          
-        }          
-        function bezierPath(p0, p1, p2, p3, t) {               
-            return new THREE.Vector3(                   
-                bezierEvaluate(p0.x, p1.x, p2.x, p3.x, t),                   
-                bezierEvaluate(p0.y, p1.y, p2.y, p3.y, t),                   
-                bezierEvaluate(p0.z, p1.z, p2.z, p3.z, t)               
-            );           
-        }     
+<script type="script-effect" id="add" data-defaults="bloom_texture bloom_intensity" data-diffuse>
+    void $main(inout vec4 c, vec4 o, vec2 uv, float d){
+        c.rgb += pow(texture2D($0, uv).rgb,vec3(2.)) * $1;
     }
-});
 </script>
 <!-- END: Unity Compiled Events -->
 
@@ -90,21 +46,18 @@ if (markerFound == 1) {
             <image src="Loading gif.gif" alt="loading..." />
         </div>
 
-        <div style='position: absolute; 
-                    bottom: 10px; 
-                    right: 30px; 
-                    width:100%; 
-                    text-align: center;
-                    z-index: 1;'>      
-            <button id="mutebutton" class="buttonUnmute">
-                Unmute
-            </button>
-        </div>
-
         
 
         <!-- <a-scene embedded arjs='debugUIEnabled: false; sourceType: video; sourceUrl:../../data/videos/headtracking.mp4;'> -->
-            <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam' vr-mode-ui='enabled: false'>
+            <a-scene 
+            embedded arjs='debugUIEnabled: false; sourceType: webcam' 
+            vr-mode-ui='enabled: false'
+            antialias="false"
+            effects=" bloom, godrays, fxaa"
+            bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.5; radius:1.2"
+            fxaa="true"
+            godrays="src: #sun; threshold: 0. 0.33; intensity: 2" --></a-scene>
+            >
             <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .intersectable; useWorldCoordinates: true;"></a-entity>
 <!-- END: Middle HTML -->
 
@@ -125,6 +78,8 @@ if (markerFound == 1) {
 ></a-box-->
 <!--a-video width="1.7" height="1" src="#Video_Asset_1" class="intersectable" position="0 0.2 0" rotation="270 0 0" color="#FFFFFF" 
 ></a-video-->
+<a-entity id="sun" geometry="primitive: sphere; radius: 10;" material="shader: flat; transparent: true; color: #ffffff"
+    light="type: directional; color: #FFF; intensity: 0.6" position="40 -2 50"></a-entity>
 <a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
 <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
 
