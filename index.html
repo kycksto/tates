@@ -20,7 +20,6 @@ AFRAME.registerComponent("hider-material", {
 </script>
 
 <link rel="stylesheet" href="style.css">
-
 <body id="bodies" style='margin : 0px; overflow: hidden; font-family: Monospace;'>
   <div class="camload">
       <p> Please wait for the Camera to turn on.</p>
@@ -28,22 +27,23 @@ AFRAME.registerComponent("hider-material", {
   <div class="loader">
       <image src="Loading gif.gif" alt="loading..." />
   </div>
-
-  <a-scene 
-    embedded arjs='debugUIEnabled: false; sourceType: webcam' 
-    vr-mode-ui='enabled: false'
-    antialias="false"
-    >
-      <a-assets>
-        <a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
-        <a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
-      </a-assets>
-      <a-marker id="marker" preset="hiro" emitevents="true" button>
-        <a-entity gltf-model="#portalhider" scale="0.5"  src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
-        <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
+  <a-scene embedded arjs='debugUIEnabled: false; sourceType: webcam' vr-mode-ui='enabled: false'>
+  <a-assets>
+    <a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
+    <a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
+  </a-assets>
+    <a-marker id="marker" preset="hiro" emitevents="true" button>
+      <a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
+      <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
+    </a-marker>
+    <a-entity light="type: ambient; color: #BBB"></a-entity>
+    <a-entity camera></a-entity>
   </a-scene>
-
 </body>
+<script type="text/javascript">
+    window.addEventListener("load", function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden";
+    });
+</script>
 </html>
