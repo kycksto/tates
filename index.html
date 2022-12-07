@@ -32,10 +32,10 @@ AFRAME.registerComponent("hider-material", {
     <a-asset-item id="portalhider" src="models/portalhider.glb"></a-asset-item>
     <a-asset-item id="portal" src="models/portal.glb"></a-asset-item>
   </a-assets>
-    <a-marker id="marker" preset="hiro" emitevents="true" button>
+    <a-nft id="nft" url="https://drive.google.com/file/d/1akqmwQwwsTDCTMjPoWYn-AI8avoc93Bl/view?usp=share_link" smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
       <a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
       <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
-    </a-marker>
+    </a-nft>
     <a-entity light="type: ambient; color: #BBB"></a-entity>
     <a-entity camera></a-entity>
   </a-scene>
