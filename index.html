@@ -35,8 +35,10 @@ AFRAME.registerComponent("hider-material", {
     <a-marker id="marker" preset="hiro" emitevents="true" button>
       <a-entity gltf-model="#portalhider" src="models/portalhider.glb" rotation="-90 0 0" hider-material></a-entity>
       <a-entity gltf-model="#portal" src="models/portal.glb" rotation="-90 0 0"></a-entity>
+      <a-entity light="type: ambient; color: #BBB intensity:0.3"></a-entity>
+
     </a-marker>
-    <a-entity light="type: ambient; color: #FFF"></a-entity>
+    <a-entity light="type: ambient; color: #FFF intensity:2"></a-entity>
     <a-entity camera></a-entity>
   </a-scene>
 </body>
